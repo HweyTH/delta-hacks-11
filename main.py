@@ -4,6 +4,7 @@ from gui.pages.home_page import HomePage
 from gui.pages.game_page import GamePage
 from gui.pages.result_page import ResultPage
 
+
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
