@@ -10,7 +10,7 @@ def visualize_stats():
         scores_data = json.load(file)
         current_game_number = scores_data['games_played']
         game_stats = scores_data[str(current_game_number)]
-        avg_wpm = game_stats['avg_wpm'] 
+        avg_wpm = game_stats['avg_wpm']
         highest_wpm = game_stats['highest_wpm']
         all_wpms = game_stats['all_wpms']
         accuracy = game_stats['accuracy']
@@ -41,9 +41,18 @@ def visualize_stats():
     fig, ax = plt.subplots()
     ax.plot(seconds, all_wpms)
 
-    ax.set(xlabel='time (s)', ylabel='wpm',
-        title='')
+    ax.set(xlabel='Seconds', ylabel='Words Per Minute',
+        title='Typing Test Results')
     ax.grid()
     fig.savefig('name.png')
     plt.show()
 
+def get_stats():
+    with open('data/scores.json', encoding='utf-8') as file:
+        scores_data = json.load(file)
+        current_game_number = scores_data['games_played']
+        game_stats = scores_data[str(current_game_number)]
+        avg_wpm = game_stats['avg_wpm']
+        accuracy = game_stats['accuracy']
+
+    return avg_wpm, accuracy
