@@ -24,15 +24,18 @@ class MainApp(QMainWindow):
 
     def navigate_to_game_page(self, selected_time):
         """Navigate to the Game Page with the selected time."""
+        # Pass the selected time to the GamePage
         self.game_page = GamePage(self, selected_time, self.navigate_to_result_page)
         self.stacked_widget.addWidget(self.game_page)
         self.stacked_widget.setCurrentWidget(self.game_page)
 
     def navigate_to_result_page(self):
         """Navigate to the Result Page."""
+        # Navigate to the ResultPage to show final results
         self.result_page = ResultPage(self)
         self.stacked_widget.addWidget(self.result_page)
         self.stacked_widget.setCurrentWidget(self.result_page)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
