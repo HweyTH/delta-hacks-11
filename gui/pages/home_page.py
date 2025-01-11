@@ -49,5 +49,21 @@ class HomePage(QWidget):
     def open_camera(self):
         """Navigate to the Game Page."""
         selected_time = self.time_dropdown.currentText()
-        print(f"Starting game with time: {selected_time}")
-        self.navigate_to_game_page()
+        time_in_seconds = self.convert_time_to_seconds(selected_time)
+        print(f"Starting game with time: {time_in_seconds} seconds")
+        self.navigate_to_game_page(time_in_seconds)
+
+    def convert_time_to_seconds(self, selected_time):
+        """Convert the selected time to seconds."""
+        if selected_time == "30 Seconds":
+            return 30
+        elif selected_time == "1 Minute":
+            return 60
+        elif selected_time == "2 Minutes":
+            return 120
+        elif selected_time == "3 Minutes":
+            return 180
+        elif selected_time == "5 Minutes":
+            return 300
+        else:
+            return 60  # Default to 60 seconds if no valid selection

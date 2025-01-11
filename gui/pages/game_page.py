@@ -1,11 +1,13 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QHBoxLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QImage, QPixmap
 import cv2, imutils
 
 class GamePage(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, selected_time=60, navigate_to_result_page=None):
         super().__init__(parent)
+        self.selected_time = selected_time
+        self.navigate_to_result_page = navigate_to_result_page
 
         # Set the background color to black
         self.setStyleSheet("background-color: black;")
@@ -15,24 +17,36 @@ class GamePage(QWidget):
         self.camera_label.setStyleSheet("border: 2px solid white;")
         self.camera_label.setAlignment(Qt.AlignCenter)
 
-# the start button
+        # Create a label for the word
+        self.word_label = QLabel("WORD")
+        self.word_label.setStyleSheet("color: white; font-size: 24px;")
+        self.word_label.setAlignment(Qt.AlignCenter)
+
+        # Create a label for the timer
+        self.timer_label = QLabel("00:00")
+        self.timer_label.setStyleSheet("color: white; font-size: 18px;")
+        self.timer_label.setAlignment(Qt.AlignCenter)
+
+        # Create the start button
         self.start_button = QPushButton("Start Recording")
         self.start_button.setStyleSheet("color: white; background-color: green; font-size: 18px;")
         self.start_button.clicked.connect(self.start_recording)
 
-# the stop button
-        self.stop_button = QPushButton("Stop Recording")
-        self.stop_button.setStyleSheet("color: white; background-color: red; font-size: 18px;")
-        self.stop_button.clicked.connect(self.stop_recording)
+        # # Create the stop button
+        # self.stop_button = QPushButton("Stop Recording")
+        # self.stop_button.setStyleSheet("color: white; background-color: red; font-size: 18px;")
+        # self.stop_button.clicked.connect(self.stop_recording)
 
         # Layout for buttons
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.start_button)
-        button_layout.addWidget(self.stop_button)
+        # button_layout.addWidget(self.stop_button)
 
         # Create a vertical layout and add widgets
         layout = QVBoxLayout()
         layout.addWidget(self.camera_label)
+        layout.addWidget(self.word_label)
+        layout.addWidget(self.timer_label)
         layout.addLayout(button_layout)
 
         # Set the layout for the page
@@ -41,6 +55,11 @@ class GamePage(QWidget):
         # Initialize camera
         self.cap = cv2.VideoCapture(0)
         self.timer = self.startTimer(30)  # Update the camera feed every 30 ms
+
+        # Initialize countdown timer
+        self.countdown_timer = QTimer(self)
+        self.countdown_timer.timeout.connect(self.update_timer)
+        self.time_left = self.selected_time  # Set countdown time based on selected time
 
     def timerEvent(self, event):
         ret, frame = self.cap.read()
@@ -52,9 +71,23 @@ class GamePage(QWidget):
 
     def start_recording(self):
         print("Start Recording")  # Replace with actual recording functionality
+        self.time_left = self.selected_time  # Reset countdown time based on selected time
+        self.countdown_timer.start(1000)  # Start countdown timer with 1-second intervals
 
     def stop_recording(self):
         print("Stop Recording")  # Replace with actual recording functionality
+        self.countdown_timer.stop()  # Stop countdown timer
+
+    def update_timer(self):
+        if self.time_left > 0:
+            self.time_left -= 1
+            minutes = self.time_left // 60
+            seconds = self.time_left % 60
+            self.timer_label.setText(f"{minutes:02}:{seconds:02}")
+        else:
+            self.countdown_timer.stop()
+            if self.navigate_to_result_page:
+                self.navigate_to_result_page()
 
     def closeEvent(self, event):
         self.cap.release()
