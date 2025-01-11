@@ -1,47 +1,53 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QHBoxLayout, QComboBox
 from PyQt5.QtCore import Qt
 
-class SelectTimePage(QWidget):
-    def __init__(self, parent=None):
+
+class HomePage(QWidget):
+    def __init__(self, navigate_to_game_page, parent=None):
         super().__init__(parent)
 
-        # Set the background color to black
-        self.setStyleSheet("background-color: black;")
+        self.navigate_to_game_page = navigate_to_game_page
 
-        # Create a label with the text "Select Time"
-        label = QLabel("Select Time")
-        label.setStyleSheet("color: white; font-size: 24px;")
-        label.setAlignment(Qt.AlignCenter)
-
-        # Create buttons for time selection
-        self.time_buttons = {
-            "30 Seconds": QPushButton("30 Seconds"),
-            "1 Minute": QPushButton("1 Minute"),
-            "2 Minutes": QPushButton("2 Minutes"),
-            "3 Minutes": QPushButton("3 Minutes"),
-            "5 Minutes": QPushButton("5 Minutes"),
-        }
-
-        for button in self.time_buttons.values():
-            button.setStyleSheet("color: white; background-color: gray; font-size: 18px;")
-            button.clicked.connect(self.handle_time_selection)  # Connect button clicks to handler
-
-        # Layout for buttons
-        button_layout = QHBoxLayout()
-        for button in self.time_buttons.values():
-            button_layout.addWidget(button)
-
-        # Create a vertical layout and add widgets
+        # Set up layout
         layout = QVBoxLayout()
-        layout.addWidget(label)
-        layout.addLayout(button_layout)
+        layout.setAlignment(Qt.AlignCenter)  # Align everything to the center
+
+        # Time Selection (Centered with Dropdown)
+        time_selection_layout = QHBoxLayout()
+        time_label = QLabel("Select Time:")
+        time_label.setAlignment(Qt.AlignCenter)
+        time_label.setStyleSheet("font-size: 18px;")
+        time_selection_layout.addWidget(time_label)
+
+        self.time_dropdown = QComboBox()
+        self.time_dropdown.addItems(["Select Time", "30 Seconds", "1 Minute", "2 Minutes", "3 Minutes", "5 Minutes"])
+        self.time_dropdown.setCurrentIndex(0)
+        time_selection_layout.addWidget(self.time_dropdown)
+
+        layout.addLayout(time_selection_layout)
+
+        # Open Camera Button (Initially Disabled)
+        self.open_camera_btn = QPushButton("Open Camera")
+        self.open_camera_btn.setEnabled(False)  # Disabled initially
+        self.open_camera_btn.clicked.connect(self.open_camera)
+        layout.addWidget(self.open_camera_btn)
 
         # Set the layout for the page
         self.setLayout(layout)
 
-    def handle_time_selection(self):
-        # Determine which button was clicked and handle it
-        sender = self.sender()
-        selected_time = sender.text()
-        print(f"Selected Time: {selected_time}")  # You can replace this with actual functionality
+        # Enable "Open Camera" Button only when a valid time is selected
+        self.time_dropdown.currentIndexChanged.connect(self.enable_camera_button)
 
+    def enable_camera_button(self):
+        """Enable the Open Camera button only when a valid time is selected."""
+        selected_time = self.time_dropdown.currentText()
+        if selected_time != "Select Time":
+            self.open_camera_btn.setEnabled(True)
+        else:
+            self.open_camera_btn.setEnabled(False)
+
+    def open_camera(self):
+        """Navigate to the Game Page."""
+        selected_time = self.time_dropdown.currentText()
+        print(f"Starting game with time: {selected_time}")
+        self.navigate_to_game_page()
