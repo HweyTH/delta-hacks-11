@@ -32,9 +32,11 @@ class PlayerHandler():
             old_data['games_played']: {
             'avg_wpm': avg_wpm,
             'highest_wpm': self.highest_wpm,
+            'all_wpms': self.all_wpm,
             'accuracy': accuracy,
             'mistakes': self.mistakes,
-            'words_typed': self.words_typed
+            'words_typed': self.words_typed,
+            'duration': self.duration
             }
         }
         old_data.update(stats)
@@ -51,7 +53,6 @@ class PlayerHandler():
         detected_letter = detect_letter(frame) # Replace with the actual letter detection function 
         if detected_letter:
             self.total_inputs += 1
-
 
         # Finished typing word
         if self.letter_index == len(self.current_word) - 1 and detected_letter == self.current_word[self.letter_index]:

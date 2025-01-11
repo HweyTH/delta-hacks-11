@@ -1,3 +1,12 @@
 {
-    "games_played": 0
+    "games_played": 1,
+    "1": {
+        "avg_wpm": 0.0,
+        "highest_wpm": 0,
+        "all_wpms": [30, 34, 35, 40, 42, 39, 40, 38, 35, 40, 30, 34, 35, 40, 42, 39, 40, 38, 35, 40, 30, 34, 35, 40, 42, 39, 40, 38, 35, 40],
+        "accuracy": 0.0,
+        "mistakes": 0,
+        "words_typed": [],
+        "duration": 30
+    }
 }
