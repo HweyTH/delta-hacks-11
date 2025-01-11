@@ -23,6 +23,8 @@ class MyThread(QThread):
                        QImage.Format_RGB888)
         return image
 
+
+
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
