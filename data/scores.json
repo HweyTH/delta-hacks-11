@@ -1,0 +1,13 @@
+{
+    "games_played": 2,
+    "1": {
+        "wpm": 0,
+        "accuracy": 0,
+        "words_typed": []
+    },
+    "2": {
+        "wpm": 0,
+        "accuracy": 0,
+        "words_typed": []
+    }
+}
