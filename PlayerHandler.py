@@ -15,6 +15,7 @@ class PlayerHandler():
         self.current_string = get_words(10000) # Get a bunch of words so we don't have to keep fetching more
         self.current_word = self.current_string[0]
         self.total_inputs = 1
+        self.last_input_correct = True
 
     # Call every second
     def update_wpm(self):
@@ -70,6 +71,7 @@ class PlayerHandler():
         if self.current_string[self.letter_index] == detected_letter:
             return True
         else:
+            self.last_input_correct = False
             self.mistakes += 1
             return False
     

@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QHBoxLayo
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QImage, QPixmap
 from PlayerHandler import PlayerHandler
+from functions import color_text
 import cv2, imutils
 
 class GamePage(QWidget):
@@ -20,7 +21,8 @@ class GamePage(QWidget):
         self.camera_label.setAlignment(Qt.AlignCenter)
 
         # Create a label for the word
-        self.word_label = QLabel(self.player_handler.current_word)
+        self.label_text = self.player_handler.current_word
+        self.word_label = QLabel(self.label_text)
         self.word_label.setStyleSheet("color: white; font-size: 24px;")
         self.word_label.setAlignment(Qt.AlignCenter)
 
@@ -73,7 +75,7 @@ class GamePage(QWidget):
             image = QImage(frame, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
             self.input_image = image
             self.camera_label.setPixmap(QPixmap.fromImage(image))
-            self.word_label.setText(self.player_handler.current_word)
+            self.word_label.setText(self.label_text)
 
     def start_recording(self):
         print("Start Recording")  # Replace with actual recording functionality
@@ -93,12 +95,12 @@ class GamePage(QWidget):
             
             self.player_handler.update_wpm()
             input_result = self.player_handler.process_frame(self.input_image)
-            if input_result == True:
-                pass
-            elif input_result == False:
-                pass
-            elif input_result == None:
-                pass
+            if input_result == True or input_result is None:
+                text = color_text(self.player_handler.current_word, self.player_handler.letter_index, 'green')
+            else:
+                text = color_text(self.player_handler.current_word, self.player_handler.letter_index, 'red')
+
+            self.word_label.setText(text)
 
         else:
             self.countdown_timer.stop()
