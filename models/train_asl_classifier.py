@@ -3,6 +3,7 @@ from tf_keras.models import Sequential
 from tf_keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 from keras.src.legacy.preprocessing.image import ImageDataGenerator
 from tf_keras.utils import load_img, img_to_array
+from tf_keras.models import load_model
 
 # Paths to data sets
 train_dir = 'models/data/ASL_Alphabet_Dataset/asl_alphabet_train'
@@ -97,8 +98,9 @@ class_indices = train_generator.class_indices
 label_map = {v: k for k, v in class_indices.items()}
 print("Class Labels:", label_map)
 
+
 # Make prediction with trained model
-def predict_image(image):
+def predict_image(image, model):
     image_array = img_to_array(image) / 255.0
     image_array = tf.expand_dims(image_array, axis=0)  # Add batch dimension
     
@@ -106,5 +108,5 @@ def predict_image(image):
     predicted_class = label_map[tf.argmax(predictions[0]).numpy()]
     return predicted_class
 
-# Example
-# print(predict_image("path/to/single/image.jpg"))
+
+print(predict_image("path/to/single/image.jpg"))
