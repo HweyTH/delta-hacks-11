@@ -32,9 +32,13 @@ class MainApp(QMainWindow):
     def navigate_to_result_page(self):
         """Navigate to the Result Page."""
         # Navigate to the ResultPage to show final results
-        self.result_page = ResultPage(self)
+        self.result_page = ResultPage(self.navigate_to_home)
         self.stacked_widget.addWidget(self.result_page)
         self.stacked_widget.setCurrentWidget(self.result_page)
+
+    def navigate_to_home(self):
+        """Navigate to the Home Page."""
+        self.stacked_widget.setCurrentWidget(self.home_page)
 
 
 if __name__ == "__main__":
