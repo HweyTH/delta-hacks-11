@@ -4,11 +4,20 @@ import cv2
 import numpy as np
 from PyQt5.QtGui import QPixmap, QImage
 
+# def get_words(amount):
+#     with open('data/words.txt', 'r', encoding='utf-8') as words_file:
+#         words = words_file.read()
+#         words = words.split()
+#         return random.sample(words, amount)
+    
 def get_words(amount):
-    with open('data/words.txt', 'r', encoding='utf-8') as words_file:
-        words = words_file.read()
-        words = words.split()
-        return random.sample(words, amount)
+    words = [
+        'apple', 'hi', 'game', 'sign', 
+        'fig', 'grape', 'honeydew', 'kiwi', 'lemon'
+    ]
+    return words
+
+
 
 def pil_to_pixmap(pil_image):
     pil_image = pil_image.convert("RGBA")

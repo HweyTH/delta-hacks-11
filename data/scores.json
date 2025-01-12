@@ -1,5 +1,5 @@
 {
-    "games_played": 12,
+    "games_played": 13,
     "1": {
         "avg_wpm": 35.0,
         "highest_wpm": 42,
@@ -326,6 +326,53 @@
             "define",
             "entrance",
             "registered"
+        ],
+        "duration": 30
+    },
+    "13": {
+        "avg_wpm": 0.0,
+        "highest_wpm": 0,
+        "all_wpms": [
+            0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ],
+        "accuracy": 0.9032258064516129,
+        "mistakes": 28,
+        "words_typed": [
+            "belief",
+            "livecam",
+            "lcd",
+            "areas",
+            "casa"
         ],
         "duration": 30
     }
