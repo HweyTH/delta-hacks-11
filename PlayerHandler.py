@@ -50,7 +50,8 @@ class PlayerHandler():
     Returns None if detected letter is delete.
     """
     def process_frame(self, frame):
-        detected_letter = detect_letter(frame) # Replace with the actual letter detection function 
+        # detected_letter = detect_letter(frame) # Replace with the actual letter detection function 
+        detected_letter = 'a' # Temporary value
         if detected_letter:
             self.total_inputs += 1
 

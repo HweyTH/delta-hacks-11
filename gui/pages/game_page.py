@@ -1,12 +1,13 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QHBoxLayout
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QImage, QPixmap
+from PlayerHandler import PlayerHandler
 import cv2, imutils
-import random
 
 class GamePage(QWidget):
     def __init__(self, parent=None, selected_time=60, navigate_to_result_page=None):
         super().__init__(parent)
+        self.player_handler = PlayerHandler(selected_time)
         self.selected_time = selected_time
         self.navigate_to_result_page = navigate_to_result_page
 
@@ -19,7 +20,7 @@ class GamePage(QWidget):
         self.camera_label.setAlignment(Qt.AlignCenter)
 
         # Create a label for the word
-        self.word_label = QLabel("WORD")
+        self.word_label = QLabel(self.player_handler.current_word)
         self.word_label.setStyleSheet("color: white; font-size: 24px;")
         self.word_label.setAlignment(Qt.AlignCenter)
 
@@ -62,9 +63,7 @@ class GamePage(QWidget):
         self.countdown_timer.timeout.connect(self.update_timer)
         self.time_left = self.selected_time  # Set countdown time based on selected time
 
-        # Load words from file
-        self.words = self.load_words()
-        self.update_word()
+        self.input_image = None
 
     def timerEvent(self, event):
         ret, frame = self.cap.read()
@@ -72,7 +71,9 @@ class GamePage(QWidget):
             frame = imutils.resize(frame, width=640)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             image = QImage(frame, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
+            self.input_image = image
             self.camera_label.setPixmap(QPixmap.fromImage(image))
+            self.word_label.setText(self.player_handler.current_word)
 
     def start_recording(self):
         print("Start Recording")  # Replace with actual recording functionality
@@ -89,11 +90,22 @@ class GamePage(QWidget):
             minutes = self.time_left // 60
             seconds = self.time_left % 60
             self.timer_label.setText(f"{minutes:02}:{seconds:02}")
+            
+            self.player_handler.update_wpm()
+            input_result = self.player_handler.process_frame(self.input_image)
+            if input_result == True:
+                pass
+            elif input_result == False:
+                pass
+            elif input_result == None:
+                pass
+
         else:
             self.countdown_timer.stop()
             if self.navigate_to_result_page:
                 self.navigate_to_result_page()
 
+<<<<<<< HEAD
     def load_words(self):
         """Load words from the words.txt file."""
         with open('data/words.txt', 'r') as file:
@@ -105,6 +117,8 @@ class GamePage(QWidget):
         random_word = random.choice(self.words)
         self.word_label.setText(random_word)
 
+=======
+>>>>>>> 554544de3e326808a2575ab8f5b314eea7fc8482
     def closeEvent(self, event):
         self.cap.release()
         super().closeEvent(event)
