@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QHBoxLayout, QComboBox
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QColor, QPixmap
 
 class HomePage(QWidget):
     def __init__(self, navigate_to_game_page, parent=None):
@@ -11,20 +11,34 @@ class HomePage(QWidget):
         # Set the background color of the entire window (including space around the widgets)
         self.setAutoFillBackground(True)
         palette = self.palette()
-        palette.setColor(self.backgroundRole(), QColor(152,134,159))  # Purple background for the entire window
+        palette.setColor(self.backgroundRole(), QColor(152, 134, 159))  # Purple background for the entire window
         self.setPalette(palette)
 
-        # Set up layout
-        layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignCenter)  # Align everything to the center
+        # Main layout
+        main_layout = QVBoxLayout()
+        main_layout.setAlignment(Qt.AlignCenter)
 
-        # Add Welcome label
+        # Logo in the top-right corner
+        logo_label = QLabel()
+        logo_pixmap = QPixmap("path_to_logo.png")  # Replace with the path to your logo image
+        logo_label.setPixmap(logo_pixmap.scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation))  # Resize the logo
+        logo_label.setStyleSheet("margin: 10px;")  # Add some margin around the logo
+
+        # Layout to position the logo
+        logo_layout = QHBoxLayout()
+        logo_layout.addStretch()  # Push the logo to the right
+        logo_layout.addWidget(logo_label)
+
+        # Add logo layout to the main layout
+        main_layout.addLayout(logo_layout)
+
+        # Welcome label
         welcome_label = QLabel("Welcome to Sign Streak!")
         welcome_label.setAlignment(Qt.AlignCenter)
         welcome_label.setStyleSheet("color: white; font-size: 32px; font-weight: bold; padding-bottom: 30px;")
-        layout.addWidget(welcome_label)
+        main_layout.addWidget(welcome_label)
 
-        # Time Selection (Centered with Dropdown)
+        # Time selection
         time_selection_layout = QHBoxLayout()
         time_label = QLabel("Select Time:")
         time_label.setAlignment(Qt.AlignCenter)
@@ -36,17 +50,19 @@ class HomePage(QWidget):
         self.time_dropdown.setCurrentIndex(0)
         time_selection_layout.addWidget(self.time_dropdown)
 
-        layout.addLayout(time_selection_layout)
+
+        main_layout.addLayout(time_selection_layout)
+
 
         # Open Camera Button (Initially Disabled)
         self.open_camera_btn = QPushButton("Open Camera")
         self.open_camera_btn.setEnabled(False)  # Disabled initially
         self.open_camera_btn.clicked.connect(self.open_camera)
         self.open_camera_btn.setStyleSheet("color: white; background-color: #3B2251; font-size: 18px; padding: 10px; border-radius: 5px;")
-        layout.addWidget(self.open_camera_btn)
+        main_layout.addWidget(self.open_camera_btn)
 
         # Set the layout for the page
-        self.setLayout(layout)
+        self.setLayout(main_layout)
 
         # Enable "Open Camera" Button only when a valid time is selected
         self.time_dropdown.currentIndexChanged.connect(self.enable_camera_button)

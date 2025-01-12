@@ -8,7 +8,7 @@ from gui.pages.result_page import ResultPage
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Integrated Navigation App")
+        self.setWindowTitle("Sign Sreak")
         self.setFixedSize(800, 600)
 
         # Set up the stacked widget for navigation
