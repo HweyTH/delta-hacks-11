@@ -114,13 +114,15 @@ class PlayerHandler():
             self.current_word = self.current_string[self.word_index]
 
         if detected_letter == 'del':
-            self.letter_index -= 1
+            self.letter_index = max(0, self.letter_index - 1)  # Prevent negative index
             return None
-        
-        self.letter_index += 1
-        if self.current_string[self.letter_index] == detected_letter:
-            return True
+
+        if self.letter_index < len(self.current_word) and detected_letter == self.current_word[self.letter_index]:
+            self.letter_index += 1
         else:
             self.mistakes += 1
-            return False
+
+        # Ensure letter_index does not exceed the length of the current_word
+        self.letter_index = min(self.letter_index, len(self.current_word) - 1)
+
     
