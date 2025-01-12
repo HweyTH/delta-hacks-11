@@ -36,7 +36,7 @@ def visualize_stats():
         time += 1
 
     plt.rcParams['font.sans-serif'] = ['Arial']
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(7, 3))
     plt.plot(seconds, all_wpms, color="#d79921", linewidth=2)
     plt.gca().set_facecolor('#282828')
     plt.gcf().set_facecolor('#282828')

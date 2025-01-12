@@ -20,7 +20,7 @@ class HomePage(QWidget):
         time_selection_layout.addWidget(time_label)
 
         self.time_dropdown = QComboBox()
-        self.time_dropdown.addItems(["Select Time", "30 Seconds", "1 Minute", "2 Minutes", "3 Minutes", "5 Minutes"])
+        self.time_dropdown.addItems(["Select Time", "1 Second", "30 Seconds", "1 Minute", "2 Minutes", "3 Minutes", "5 Minutes"])
         self.time_dropdown.setCurrentIndex(0)
         time_selection_layout.addWidget(self.time_dropdown)
 
@@ -57,6 +57,8 @@ class HomePage(QWidget):
         """Convert the selected time to seconds."""
         if selected_time == "30 Seconds":
             return 30
+        elif selected_time == "1 Second":
+            return 1
         elif selected_time == "1 Minute":
             return 60
         elif selected_time == "2 Minutes":

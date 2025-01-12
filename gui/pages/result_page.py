@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PyQt5.QtCore import Qt
-from stats import get_stats  # Import the get_stats function
-
+from stats import get_stats, visualize_stats
+from functions import pil_to_pixmap
+from PyQt5.QtGui import QPixmap
 
 class ResultPage(QWidget):
     def __init__(self, parent=None):
@@ -36,6 +37,12 @@ class ResultPage(QWidget):
         acc_label.setStyleSheet("font-size: 32px; font-weight: bold; color: #ffc400;")
         stats_layout.addWidget(acc_label)
 
+        pil_image = visualize_stats()
+        pixmap = pil_to_pixmap(pil_image)
+        plot_label = QLabel()
+        plot_label.setPixmap(pixmap)
+        stats_layout.addWidget(plot_label)
+        
         # Add Stats Layout to Main Layout
         main_layout.addLayout(stats_layout)
 
