@@ -7,6 +7,7 @@ from tf_keras.utils import load_img, img_to_array
 from tf_keras.models import load_model
 from PyQt5.QtGui import QImage, QPixmap
 from PIL import Image
+import tensorflow as tf
 
 
 class PlayerHandler():
@@ -60,33 +61,39 @@ class PlayerHandler():
     Returns None if detected letter is delete.
     """
 
-
-
-
     def predict_image(self, image, model):
-        # Ensure the input image is in the correct color format for processing (if it's a QImage/QPixmap)
+        # Convert QImage to NumPy array
+        if isinstance(image, QImage):
+            image = image.convertToFormat(QImage.Format_RGB888)  # Ensure consistent format
+            width, height = image.width(), image.height()
+            bytes_per_line = image.bytesPerLine()
+            
+            # Create NumPy array from QImage
+            img_array = np.frombuffer(image.bits().asstring(image.byteCount()), dtype=np.uint8)
+            img_array = img_array.reshape((height, width, 3))  # Format_RGB888 has 3 channels (R, G, B)
 
-        # Convert PIL Image to NumPy array for OpenCV processing (if it's already a PIL Image)
-        img = np.array(image)  # Convert the image to NumPy array (if it's not already)
-        
-        # Convert the image from BGR to RGB (OpenCV uses BGR by default)
-        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        
-        # Convert the NumPy array to a PIL Image
-        im_pil = Image.fromarray(img)
-        
-        # Continue with the rest of the prediction code
-        img_array = np.array(im_pil) / 255.0  # Normalize the image data
-        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
-        
-        predictions = model.predict(img_array)
-        
+            # Convert to PIL Image for further processing
+            image = Image.fromarray(img_array)
+
+        # Resize image to match the model's input shape
+        target_size = (64, 64)  # Target size expected by the model
+        image = image.resize(target_size)
+
+        # Convert PIL Image to array
+        image_array = img_to_array(image) / 255.0
+        image_array = tf.expand_dims(image_array, axis=0)  # Add batch dimension
+
+        # Perform predictions
+        predictions = model.predict(image_array)
+
         # Define label mapping
-        label_map = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H',
-                    8: 'I', 9: 'J', 10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O', 15: 'P', 
-                    16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X', 
-                    24: 'Y', 25: 'Z', 26: 'del', 27: 'nothing', 28: 'space'}
-        
+        label_map = {
+            0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H',
+            8: 'I', 9: 'J', 10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O', 15: 'P', 
+            16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X', 
+            24: 'Y', 25: 'Z', 26: 'del', 27: 'nothing', 28: 'space'
+        }
+
         # Get the predicted class
         predicted_class = label_map[np.argmax(predictions[0])]
         return predicted_class
@@ -98,8 +105,6 @@ class PlayerHandler():
         detected_letter = self.predict_image(frame,model) # Replace with the actual letter detection function 
         if detected_letter:
             self.total_inputs += 1
-
-
 
         # Finished typing word
         if self.letter_index == len(self.current_word) - 1 and detected_letter == self.current_word[self.letter_index]:
