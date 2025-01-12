@@ -24,6 +24,7 @@ class HomePage(QWidget):
         logo_label.setPixmap(logo_pixmap.scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation))  # Resize the logo
         logo_label.setStyleSheet("margin: 10px;")  # Add some margin around the logo
 
+
         # Layout to position the logo
         logo_layout = QHBoxLayout()
         logo_layout.addStretch()  # Push the logo to the right
