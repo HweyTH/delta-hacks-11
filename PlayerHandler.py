@@ -100,29 +100,60 @@ class PlayerHandler():
 
 
     def process_frame(self, frame):
+        """
+        Process the input frame, predict the letter, and update the game state.
+        """
         path = 'sign_language_model.h5'
         model = load_model(path)
-        detected_letter = self.predict_image(frame,model) # Replace with the actual letter detection function 
-        if detected_letter:
+        detected_letter = self.predict_image(frame, model)  # Predict the letter
+
+        print(f"Detected Letter: {detected_letter}")  # Debug: Log detected letter
+        print(f"Current Word: {self.current_word}")  # Debug: Log the current word
+        print(f"Letter Index: {self.letter_index}")  # Debug: Log the current letter index
+
+        if detected_letter:  # Ensure detected_letter is valid
             self.total_inputs += 1
 
-        # Finished typing word
-        if self.letter_index == len(self.current_word) - 1 and detected_letter == self.current_word[self.letter_index]:
-            # Only move to the next word if the current word was typed correctly
-            self.words_typed.append(self.current_word)
-            self.word_index += 1
-            self.current_word = self.current_string[self.word_index]
+            # Finished typing the word correctly
+            if (
+                self.letter_index == len(self.current_word) - 1
+                and detected_letter == self.current_word[self.letter_index]
+            ):
+                print(f"Word Completed: {self.current_word}")  # Debug: Word completed
+                self.words_typed.append(self.current_word)
+                self.word_index += 1
 
-        if detected_letter == 'del':
-            self.letter_index = max(0, self.letter_index - 1)  # Prevent negative index
-            return None
+                # Check if there are more words to type
+                if self.word_index < len(self.current_string):
+                    self.current_word = self.current_string[self.word_index]
+                    self.letter_index = 0  # Reset letter index for the new word
+                else:
+                    print("No more words to type.")  # Debug: All words completed
+                    return
 
-        if self.letter_index < len(self.current_word) and detected_letter == self.current_word[self.letter_index]:
-            self.letter_index += 1
-        else:
-            self.mistakes += 1
+            # Handle delete logic
+            elif detected_letter == 'backspace':  # Assuming 'backspace' is returned for deletion
+                self.letter_index = max(0, self.letter_index - 1)  # Prevent negative index
+                colorized_text = color_text(self.current_word, self.letter_index, 'grey')
+                self.update_display(colorized_text)  # Update display with grey color
+                return None
 
-        # Ensure letter_index does not exceed the length of the current_word
-        self.letter_index = min(self.letter_index, len(self.current_word) - 1)
+            # Match detected letter with the current letter in the word
+            elif (
+                self.letter_index < len(self.current_word)
+                and detected_letter == self.current_word[self.letter_index]
+            ):
+                self.letter_index += 1
+                print(f"Correct Letter: {detected_letter}")  # Debug: Correct letter typed
+                colorized_text = color_text(self.current_word, self.letter_index, 'green')
+                self.update_display(colorized_text)  # Update display with green color
 
-    
+            # Incorrect letter detected
+            else:
+                self.mistakes += 1
+                print(f"Incorrect Letter: {detected_letter}")  # Debug: Incorrect letter typed
+                colorized_text = color_text(self.current_word, self.letter_index, 'red')
+                self.update_display(colorized_text)  # Update display with red color
+
+            # Ensure letter_index does not exceed the length of the current_word
+            self.letter_index = min(self.letter_index, len(self.current_word) - 1)
