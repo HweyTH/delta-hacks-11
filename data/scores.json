@@ -1,12 +1,30 @@
 {
-    "games_played": 1,
+    "games_played": 3,
     "1": {
-        "avg_wpm": 0.0,
-        "highest_wpm": 0,
-        "all_wpms": [30, 34, 35, 40, 42, 39, 40, 38, 35, 40, 30, 34, 35, 40, 42, 39, 40, 38, 35, 40, 30, 34, 35, 40, 42, 39, 40, 38, 35, 40],
-        "accuracy": 0.0,
-        "mistakes": 0,
-        "words_typed": [],
+        "avg_wpm": 35.0,
+        "highest_wpm": 42,
+        "all_wpms": [30, 34, 35, 40, 42, 39, 40, 38, 35, 40],
+        "accuracy": 92.0,
+        "mistakes": 5,
+        "words_typed": ["hello", "world", "this", "is", "a", "test"],
         "duration": 30
+    },
+    "2": {
+        "avg_wpm": 45.0,
+        "highest_wpm": 50,
+        "all_wpms": [45, 46, 50, 48, 47, 45, 44, 45, 46, 50],
+        "accuracy": 95.0,
+        "mistakes": 3,
+        "words_typed": ["another", "test", "to", "check", "the", "performance"],
+        "duration": 60
+    },
+    "3": {
+        "avg_wpm": 50.0,
+        "highest_wpm": 55,
+        "all_wpms": [48, 49, 50, 51, 55, 53, 52, 50, 51, 55],
+        "accuracy": 97.0,
+        "mistakes": 2,
+        "words_typed": ["final", "test", "with", "better", "results"],
+        "duration": 45
     }
 }
