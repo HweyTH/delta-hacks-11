@@ -107,33 +107,34 @@ class PlayerHandler:
         """
         path = 'sign_language_model.h5'
         model = load_model(path)
-        detected_letter = self.predict_image(frame, model)
+        detected_letter = self.predict_image(frame, model)  # Predict the letter
 
-        print(f"Detected Letter: {detected_letter}")  # Debugging
-        print(f"Current Word: {self.current_word}")  # Debugging
-        print(f"Letter Index: {self.letter_index}")  # Debugging
+        # Debugging: Print detected letter and current letter
+        current_letter = self.current_word[self.letter_index].upper() if self.letter_index < len(self.current_word) else None
+        print(f"Detected Letter: {detected_letter}, Current Letter: {current_letter}")
+        print(f"Current Word: {self.current_word}, Letter Index: {self.letter_index}")
 
         if detected_letter:  # Ensure detected_letter is valid
             self.total_inputs += 1
 
+            # Handle backspace
             if detected_letter == "backspace":
-                # Move back one letter if backspace is detected
-                self.letter_index = max(0, self.letter_index - 1)
+                self.letter_index = max(0, self.letter_index - 1)  # Move back one letter
                 self.typed_colors[self.letter_index] = 'grey'  # Reset to grey
                 return None
 
-            # Correct letter
-            if (
+            # Check if the detected letter (uppercased) matches the current letter (uppercased)
+            is_correct = (
                 self.letter_index < len(self.current_word)
-                and detected_letter == self.current_word[self.letter_index]
-            ):
-                print(f"Correct Letter: {detected_letter}")
-                self.typed_colors[self.letter_index] = 'green'
+                and detected_letter.upper() == current_letter  # Normalize to uppercase for comparison
+            )
 
-            # Incorrect letter
+            if is_correct:
+                print(f"Correct Letter: {detected_letter}")
+                self.typed_colors[self.letter_index] = 'green'  # Mark as correct
             else:
                 print(f"Incorrect Letter: {detected_letter}")
-                self.typed_colors[self.letter_index] = 'red'
+                self.typed_colors[self.letter_index] = 'red'  # Mark as incorrect
                 self.mistakes += 1
 
             # Move to the next letter
@@ -153,4 +154,7 @@ class PlayerHandler:
                     print("All words completed!")
                     return None
 
-            return True
+            return is_correct
+        else:
+            print("No letter detected. Waiting for input...")  # Debugging output
+            return None  # Do not proceed when no letter is detected
