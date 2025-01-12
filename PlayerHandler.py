@@ -8,22 +8,24 @@ from tf_keras.models import load_model
 from PyQt5.QtGui import QImage, QPixmap
 from PIL import Image
 import tensorflow as tf
+from functions import color_text  # Ensure this matches the actual location of your color_text function
 
-
-class PlayerHandler():
+class PlayerHandler:
     def __init__(self, duration):
         self.duration = duration
         self.time = 1
         self.letter_index = 0
         self.word_index = 0
-        self.all_wpm = [] # Add wpm to list each second
+        self.all_wpm = []
         self.current_wpm = 0
         self.highest_wpm = 0
-        self.mistakes = 0 # Total count of mistakes made
+        self.mistakes = 0
         self.words_typed = []
-        self.current_string = get_words(10000) # Get a bunch of words so we don't have to keep fetching more
+        self.current_string = get_words(10000)
         self.current_word = self.current_string[0]
+        self.typed_colors = ['grey'] * len(self.current_word)  # Initialize all letters as 'grey'
         self.total_inputs = 1
+
 
 
     # Call every second
@@ -105,55 +107,50 @@ class PlayerHandler():
         """
         path = 'sign_language_model.h5'
         model = load_model(path)
-        detected_letter = self.predict_image(frame, model)  # Predict the letter
+        detected_letter = self.predict_image(frame, model)
 
-        print(f"Detected Letter: {detected_letter}")  # Debug: Log detected letter
-        print(f"Current Word: {self.current_word}")  # Debug: Log the current word
-        print(f"Letter Index: {self.letter_index}")  # Debug: Log the current letter index
+        print(f"Detected Letter: {detected_letter}")  # Debugging
+        print(f"Current Word: {self.current_word}")  # Debugging
+        print(f"Letter Index: {self.letter_index}")  # Debugging
 
         if detected_letter:  # Ensure detected_letter is valid
             self.total_inputs += 1
 
-            # Finished typing the word correctly
-            if (
-                self.letter_index == len(self.current_word) - 1
-                and detected_letter == self.current_word[self.letter_index]
-            ):
-                print(f"Word Completed: {self.current_word}")  # Debug: Word completed
-                self.words_typed.append(self.current_word)
-                self.word_index += 1
-
-                # Check if there are more words to type
-                if self.word_index < len(self.current_string):
-                    self.current_word = self.current_string[self.word_index]
-                    self.letter_index = 0  # Reset letter index for the new word
-                else:
-                    print("No more words to type.")  # Debug: All words completed
-                    return
-
-            # Handle delete logic
-            elif detected_letter == 'backspace':  # Assuming 'backspace' is returned for deletion
-                self.letter_index = max(0, self.letter_index - 1)  # Prevent negative index
-                colorized_text = color_text(self.current_word, self.letter_index, 'grey')
-                self.update_display(colorized_text)  # Update display with grey color
+            if detected_letter == "backspace":
+                # Move back one letter if backspace is detected
+                self.letter_index = max(0, self.letter_index - 1)
+                self.typed_colors[self.letter_index] = 'grey'  # Reset to grey
                 return None
 
-            # Match detected letter with the current letter in the word
-            elif (
+            # Correct letter
+            if (
                 self.letter_index < len(self.current_word)
                 and detected_letter == self.current_word[self.letter_index]
             ):
-                self.letter_index += 1
-                print(f"Correct Letter: {detected_letter}")  # Debug: Correct letter typed
-                colorized_text = color_text(self.current_word, self.letter_index, 'green')
-                self.update_display(colorized_text)  # Update display with green color
+                print(f"Correct Letter: {detected_letter}")
+                self.typed_colors[self.letter_index] = 'green'
 
-            # Incorrect letter detected
+            # Incorrect letter
             else:
+                print(f"Incorrect Letter: {detected_letter}")
+                self.typed_colors[self.letter_index] = 'red'
                 self.mistakes += 1
-                print(f"Incorrect Letter: {detected_letter}")  # Debug: Incorrect letter typed
-                colorized_text = color_text(self.current_word, self.letter_index, 'red')
-                self.update_display(colorized_text)  # Update display with red color
 
-            # Ensure letter_index does not exceed the length of the current_word
-            self.letter_index = min(self.letter_index, len(self.current_word) - 1)
+            # Move to the next letter
+            self.letter_index += 1
+
+            # If the word is completed, move to the next word
+            if self.letter_index >= len(self.current_word):
+                print(f"Word Completed: {self.current_word}")
+                self.words_typed.append(self.current_word)
+                self.word_index += 1
+
+                if self.word_index < len(self.current_string):
+                    self.current_word = self.current_string[self.word_index]
+                    self.letter_index = 0
+                    self.typed_colors = ['grey'] * len(self.current_word)  # Reset for the new word
+                else:
+                    print("All words completed!")
+                    return None
+
+            return True

@@ -13,14 +13,14 @@ def pil_to_pixmap(pil_image):
     qimage = QImage(data, pil_image.width, pil_image.height, QImage.Format_RGBA8888)
     return QPixmap.fromImage(qimage)
 
-def color_text(word, index, color):
+def color_text(word, index, typed_colors):
     """
-    Colorize the text of the given word based on the index and color.
+    Colorize the text of the given word based on the correctness of each letter.
 
     Args:
         word (str): The word to colorize.
-        index (int): The index of the letter to color.
-        color (str): The color to use ('red' or 'green').
+        index (int): The index of the letter currently being typed.
+        typed_colors (list[str]): List of colors ('green', 'red', or 'grey') for each letter.
 
     Returns:
         str: The colorized HTML string of the word.
@@ -31,21 +31,18 @@ def color_text(word, index, color):
 
     colored_text = ''
 
-    # Add letters before the index
-    for i in range(min(index, len(word))):  # Ensure we don't exceed bounds
-        colored_text += green_span.format(word[i])
-
-    # Check if index is valid before coloring
-    if 0 <= index < len(word):
-        if color == 'red':
-            colored_text += red_span.format(word[index])
-        elif color == 'green':
-            colored_text += green_span.format(word[index])
-
-    # Add letters after the index
-    for i in range(index + 1, len(word)):
-        colored_text += grey_span.format(word[i])
+    for i, letter in enumerate(word):
+        if i < index:  # Letters before the current index
+            if typed_colors[i] == 'green':
+                colored_text += green_span.format(letter)
+            elif typed_colors[i] == 'red':
+                colored_text += red_span.format(letter)
+        elif i == index:  # Current letter
+            if typed_colors[i] == 'red':  # If already marked as incorrect, stay red
+                colored_text += red_span.format(letter)
+            else:
+                colored_text += grey_span.format(letter)  # Default to grey if not marked yet
+        else:  # Letters after the current index
+            colored_text += grey_span.format(letter)
 
     return colored_text
-
-
