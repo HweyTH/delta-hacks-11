@@ -1,4 +1,7 @@
+import math
 import random
+import cv2
+import numpy as np
 from PyQt5.QtGui import QPixmap, QImage
 
 def get_words(amount):
@@ -46,3 +49,33 @@ def color_text(word, index, typed_colors):
             colored_text += grey_span.format(letter)
 
     return colored_text
+
+def qimage_to_numpy(qimage):
+    width = qimage.width()
+    height = qimage.height()
+    
+    ptr = qimage.constBits()
+    ptr.setsize(height * width * 3)
+    
+    arr = np.array(ptr).reshape(height, width, 3)
+    return arr
+
+def handle_face(frame):
+    frame = qimage_to_numpy(frame)
+    face_classifier = cv2.CascadeClassifier(
+        cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+    )
+    faces = face_classifier.detectMultiScale(
+        frame, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40)
+    )
+    if len(faces) > 0:
+        print(f'{len(faces)} face(s) found')
+        for (x, y, w, h) in faces:
+            center_x = x + w//2
+            center_y = y + h//2
+            radius = int(np.sqrt(w*w + h*h) / 2)
+            cv2.circle(img=frame, center=(center_x, center_y), radius=(math.floor(radius * 0.8)), color=(255, 255, 255), thickness=-1)
+    else:
+        print('no faces detected')
+
+    return QImage(frame, frame.shape[1], frame.shape[0], QImage.Format_RGB888)

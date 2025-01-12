@@ -1,5 +1,5 @@
 {
-    "games_played": 7,
+    "games_played": 8,
     "1": {
         "avg_wpm": 35.0,
         "highest_wpm": 42,
@@ -120,6 +120,21 @@
         "words_typed": [
             "vesicovaginal",
             "lophiostomate"
+        ],
+        "duration": 30
+    },
+    "8": {
+        "avg_wpm": 0.0,
+        "highest_wpm": 0,
+        "all_wpms": [
+            0
+        ],
+        "accuracy": 0.9354838709677419,
+        "mistakes": 29,
+        "words_typed": [
+            "arsine",
+            "lachrymosal",
+            "locaters"
         ],
         "duration": 30
     }

@@ -8,7 +8,7 @@ from tf_keras.models import load_model
 from PyQt5.QtGui import QImage, QPixmap
 from PIL import Image
 import tensorflow as tf
-from functions import color_text  # Ensure this matches the actual location of your color_text function
+from functions import color_text, handle_face
 
 class PlayerHandler:
     def __init__(self, duration):
@@ -64,7 +64,6 @@ class PlayerHandler:
     """
 
     def predict_image(self, image, model):
-        # Convert QImage to NumPy array
         if isinstance(image, QImage):
             image = image.convertToFormat(QImage.Format_RGB888)  # Ensure consistent format
             width, height = image.width(), image.height()
@@ -106,6 +105,7 @@ class PlayerHandler:
         Process the input frame, predict the letter, and update the game state.
         """
         path = 'sign_language_model.h5'
+        frame = handle_face(frame)
         model = load_model(path)
         detected_letter = self.predict_image(frame, model)  # Predict the letter
 

@@ -83,7 +83,7 @@ class GamePage(QWidget):
             self.timer_label.setText(f"{minutes:02}:{seconds:02}")
 
             # Process the frame and update the UI
-            input_result = self.player_handler.process_frame(self.input_image)
+            self.player_handler.process_frame(self.input_image)
             text = color_text(
                 self.player_handler.current_word,
                 self.player_handler.letter_index,
