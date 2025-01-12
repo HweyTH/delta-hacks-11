@@ -10,19 +10,20 @@ train_dir = 'models/data/ASL_Alphabet_Dataset/asl_alphabet_train'
 test_dir = 'models/data/ASL_Alphabet_Dataset/asl_alphabet_test'
 
 # Parameters
-img_size = (64, 64)  # Resize all images to 64x64
-batch_size = 32
+img_size = (160, 160)  # Resize all images to 160x160 for quicker processing
+batch_size = 64  # Increased batch size to 64 for faster processing
+epochs = 10  # Reduce the number of epochs to speed up training
 
 # Data Augmentation and Preprocessing for Training
 train_datagen = ImageDataGenerator(
     rescale=1.0/255,
-    rotation_range=30,
-    width_shift_range=0.3,
-    height_shift_range=0.3,
-    shear_range=0.3,
-    zoom_range=0.3,
+    rotation_range=20,  # Reduced rotation range
+    width_shift_range=0.2,  # Reduced shift range
+    height_shift_range=0.2,  # Reduced shift range
+    shear_range=0.2,  # Reduced shear range
+    zoom_range=0.2,  # Reduced zoom range
     horizontal_flip=True,
-    validation_split=0.2 # allocate 20 percent for validation purpose
+    validation_split=0.2  # allocate 20 percent for validation purpose
 )
 
 # Create Training and Validation Generators
@@ -52,18 +53,11 @@ test_generator = test_datagen.flow_from_directory(
     class_mode='categorical'
 )
 
-# Ensure Test Data Matches Expected Structure
-# if test_generator.samples != 28:
-#     print(test_generator.samples)  # 26 alphabetic characters + 2 special characters
-#     raise ValueError("Test dataset should contain exactly 28 images (26 letters + 'nothing' and 'space'). Please check the dataset.")
-
-# Build the Model
+# Build the Model (slightly reduced complexity)
 model = Sequential([
     Conv2D(32, (3, 3), activation='relu', input_shape=(img_size[0], img_size[1], 3)),
     MaxPooling2D((2, 2)),
     Conv2D(64, (3, 3), activation='relu'),
-    MaxPooling2D((2, 2)),
-    Conv2D(128, (3, 3), activation='relu'),
     MaxPooling2D((2, 2)),
     Flatten(),
     Dense(128, activation='relu'),
@@ -77,14 +71,14 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 # Train the Model
 history = model.fit(
     train_generator,
-    epochs=12,
+    epochs=epochs, 
     steps_per_epoch=train_generator.samples // train_generator.batch_size,
     validation_data=validation_generator,
     validation_steps=validation_generator.samples // validation_generator.batch_size
 )
 
 # Save the Model
-model.save("sign_language_model.h5")
+model.save("sign_language_model_v2.h5")
 
 # Evaluate on Test Data
 test_loss, test_accuracy = model.evaluate(
@@ -97,16 +91,3 @@ print(f"Test Accuracy: {test_accuracy * 100:.2f}%")
 class_indices = train_generator.class_indices
 label_map = {v: k for k, v in class_indices.items()}
 print("Class Labels:", label_map)
-
-
-# Make prediction with trained model
-# def predict_image(image, model):
-#     image_array = img_to_array(image) / 255.0
-#     image_array = tf.expand_dims(image_array, axis=0)  # Add batch dimension
-    
-#     predictions = model.predict(image_array)
-#     predicted_class = label_map[tf.argmax(predictions[0]).numpy()]
-#     return predicted_class
-
-
-# print(predict_image("path/to/single/image.jpg"))
