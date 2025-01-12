@@ -92,6 +92,8 @@ class GamePage(QWidget):
             self.word_label.setText(text)
 
         else:
+            self.player_handler.save_stats()
             self.countdown_timer.stop()
             if self.navigate_to_result_page:
                 self.navigate_to_result_page()
+            

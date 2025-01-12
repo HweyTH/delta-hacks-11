@@ -16,7 +16,7 @@ class PlayerHandler:
         self.time = 1
         self.letter_index = 0
         self.word_index = 0
-        self.all_wpm = []
+        self.all_wpm = [0]
         self.current_wpm = 0
         self.highest_wpm = 0
         self.mistakes = 0

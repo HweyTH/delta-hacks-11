@@ -17,7 +17,9 @@ def visualize_stats():
         mistakes = game_stats['mistakes']
         words_typed = game_stats['words_typed']
         duration = game_stats['duration']
-
+        
+    print(all_wpms)
+    print(duration)
     # Neither of these cases should happen but this is needed for the graph
     diff = abs(len(all_wpms) - duration)
     if len(all_wpms) > duration:

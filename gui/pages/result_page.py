@@ -19,6 +19,7 @@ class ResultPage(QWidget):
 
         # Fetch stats using get_stats()
         avg_wpm, accuracy = get_stats()
+        accuracy = round(accuracy, 2)
 
         # Main layout
         main_layout = QVBoxLayout()

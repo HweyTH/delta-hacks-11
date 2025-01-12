@@ -1,30 +1,126 @@
 {
-    "games_played": 3,
+    "games_played": 7,
     "1": {
         "avg_wpm": 35.0,
         "highest_wpm": 42,
-        "all_wpms": [30, 34, 35, 40, 42, 39, 40, 38, 35, 40],
+        "all_wpms": [
+            30,
+            34,
+            35,
+            40,
+            42,
+            39,
+            40,
+            38,
+            35,
+            40
+        ],
         "accuracy": 92.0,
         "mistakes": 5,
-        "words_typed": ["hello", "world", "this", "is", "a", "test"],
+        "words_typed": [
+            "hello",
+            "world",
+            "this",
+            "is",
+            "a",
+            "test"
+        ],
         "duration": 30
     },
     "2": {
         "avg_wpm": 45.0,
         "highest_wpm": 50,
-        "all_wpms": [45, 46, 50, 48, 47, 45, 44, 45, 46, 50],
+        "all_wpms": [
+            45,
+            46,
+            50,
+            48,
+            47,
+            45,
+            44,
+            45,
+            46,
+            50
+        ],
         "accuracy": 95.0,
         "mistakes": 3,
-        "words_typed": ["another", "test", "to", "check", "the", "performance"],
+        "words_typed": [
+            "another",
+            "test",
+            "to",
+            "check",
+            "the",
+            "performance"
+        ],
         "duration": 60
     },
     "3": {
         "avg_wpm": 50.0,
         "highest_wpm": 55,
-        "all_wpms": [48, 49, 50, 51, 55, 53, 52, 50, 51, 55],
+        "all_wpms": [
+            48,
+            49,
+            50,
+            51,
+            55,
+            53,
+            52,
+            50,
+            51,
+            55
+        ],
         "accuracy": 97.0,
         "mistakes": 2,
-        "words_typed": ["final", "test", "with", "better", "results"],
+        "words_typed": [
+            "final",
+            "test",
+            "with",
+            "better",
+            "results"
+        ],
         "duration": 45
+    },
+    "4": {
+        "avg_wpm": 0.0,
+        "highest_wpm": 0,
+        "all_wpms": [],
+        "accuracy": 0.5,
+        "mistakes": 1,
+        "words_typed": [],
+        "duration": 1
+    },
+    "5": {
+        "avg_wpm": 0.0,
+        "highest_wpm": 0,
+        "all_wpms": [],
+        "accuracy": 0.5,
+        "mistakes": 1,
+        "words_typed": [],
+        "duration": 1
+    },
+    "6": {
+        "avg_wpm": 0.0,
+        "highest_wpm": 0,
+        "all_wpms": [
+            0
+        ],
+        "accuracy": 0.5,
+        "mistakes": 1,
+        "words_typed": [],
+        "duration": 1
+    },
+    "7": {
+        "avg_wpm": 0.0,
+        "highest_wpm": 0,
+        "all_wpms": [
+            0
+        ],
+        "accuracy": 0.9032258064516129,
+        "mistakes": 28,
+        "words_typed": [
+            "vesicovaginal",
+            "lophiostomate"
+        ],
+        "duration": 30
     }
 }
