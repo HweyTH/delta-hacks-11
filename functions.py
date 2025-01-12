@@ -11,12 +11,7 @@ from PyQt5.QtGui import QPixmap, QImage
 #         return random.sample(words, amount)
     
 def get_words(amount):
-    words = [
-        'apple', 'hi', 'game', 'sign', 
-        'fig', 'grape', 'honeydew', 'kiwi', 'lemon'
-    ]
-    return words
-
+    return ['ok'] * 15 + ['vow'] * 15 + ['foo'] * 15 + ['oil'] * 15
 
 
 def pil_to_pixmap(pil_image):
@@ -84,6 +79,8 @@ def handle_face(frame):
             center_y = y + h//2
             radius = int(np.sqrt(w*w + h*h) / 2)
             cv2.circle(img=frame, center=(center_x, center_y), radius=(math.floor(radius * 0.8)), color=(255, 255, 255), thickness=-1)
+            cv2.imshow('image', frame)
+            cv2.waitKey(0)
     else:
         print('no faces detected')
 
