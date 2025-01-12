@@ -1,9 +1,12 @@
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QHBoxLayout
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QImage, QPixmap
 from PlayerHandler import PlayerHandler
 from functions import color_text
 import cv2, imutils
+
+detected_letter_f_string = 'Detected Letter: {}'
 
 class GamePage(QWidget):
     def __init__(self, parent=None, selected_time=60, navigate_to_result_page=None):
@@ -21,10 +24,15 @@ class GamePage(QWidget):
         self.camera_label.setAlignment(Qt.AlignCenter)
 
         # Create a label for the word
-        self.word_label = QLabel("Start Typing!")
+        self.word_label = QLabel("Start Signing!")
         self.word_label.setStyleSheet("color: white; font-size: 24px;")
         self.word_label.setAlignment(Qt.AlignCenter)
 
+        self.detected_letter_label = QLabel(detected_letter_f_string.format(''))
+        self.detected_letter_label.size()
+        self.detected_letter_label.setStyleSheet("color: white; font-size: 24px;")
+        self.detected_letter_label.setAlignment(Qt.AlignCenter)
+        
         # Create a label for the timer
         self.timer_label = QLabel("00:00")
         self.timer_label.setStyleSheet("color: white; font-size: 18px;")
@@ -44,6 +52,7 @@ class GamePage(QWidget):
         layout.addWidget(self.camera_label)
         layout.addWidget(self.word_label)
         layout.addWidget(self.timer_label)
+        layout.addWidget(self.detected_letter_label)
         layout.addLayout(button_layout)
 
         # Set the layout for the page
@@ -76,6 +85,11 @@ class GamePage(QWidget):
         self.countdown_timer.start(1000)  # Start countdown timer
 
     def update_timer(self):
+        green_span = "<span style='color: green;'>{}</span>"
+        red_span = "<span style='color: red;'>{}</span>"
+        grey_span = "<span style='color: grey;'>{}</span>"
+
+        self.detected_letter_label.setText(detected_letter_f_string.format(''))
         if self.time_left > 0:
             self.time_left -= 1
             self.player_handler.update_wpm()
@@ -84,7 +98,11 @@ class GamePage(QWidget):
             self.timer_label.setText(f"{minutes:02}:{seconds:02}")
 
             # Process the frame and update the UI
-            self.player_handler.process_frame(self.input_image)
+            detected_letter, result = self.player_handler.process_frame(self.input_image)
+            if result == 'green': letter_label_text = detected_letter_f_string.format(green_span.format(detected_letter))
+            elif result == 'red': letter_label_text = detected_letter_f_string.format(red_span.format(detected_letter))
+            else: letter_label_text = detected_letter_f_string.format(grey_span.format(detected_letter))
+            self.detected_letter_label.setText(letter_label_text)
             text = color_text(
                 self.player_handler.current_word,
                 self.player_handler.letter_index,

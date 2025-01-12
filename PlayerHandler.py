@@ -104,6 +104,7 @@ class PlayerHandler:
         """
         Process the input frame, predict the letter, and update the game state.
         """
+        result = False
         path = 'sign_language_model.h5'
         frame = handle_face(frame)
         model = load_model(path)
@@ -121,7 +122,7 @@ class PlayerHandler:
             if detected_letter == "backspace":
                 self.letter_index = max(0, self.letter_index - 1)  # Move back one letter
                 self.typed_colors[self.letter_index] = 'grey'  # Reset to grey
-                return None
+                return 'grey'
 
             # Check if the detected letter (uppercased) matches the current letter (uppercased)
             is_correct = (
@@ -132,10 +133,12 @@ class PlayerHandler:
             if is_correct:
                 print(f"Correct Letter: {detected_letter}")
                 self.typed_colors[self.letter_index] = 'green'  # Mark as correct
+                result = 'green'
             else:
                 print(f"Incorrect Letter: {detected_letter}")
                 self.typed_colors[self.letter_index] = 'red'  # Mark as incorrect
                 self.mistakes += 1
+                result = 'red'
 
             # Move to the next letter
             self.letter_index += 1
@@ -154,7 +157,7 @@ class PlayerHandler:
                     print("All words completed!")
                     return None
 
-            return is_correct
+            return detected_letter, result
         else:
             print("No letter detected. Waiting for input...")  # Debugging output
-            return None  # Do not proceed when no letter is detected
+            return '', result
