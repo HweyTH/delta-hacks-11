@@ -100,13 +100,13 @@ print("Class Labels:", label_map)
 
 
 # Make prediction with trained model
-def predict_image(image, model):
-    image_array = img_to_array(image) / 255.0
-    image_array = tf.expand_dims(image_array, axis=0)  # Add batch dimension
+# def predict_image(image, model):
+#     image_array = img_to_array(image) / 255.0
+#     image_array = tf.expand_dims(image_array, axis=0)  # Add batch dimension
     
-    predictions = model.predict(image_array)
-    predicted_class = label_map[tf.argmax(predictions[0]).numpy()]
-    return predicted_class
+#     predictions = model.predict(image_array)
+#     predicted_class = label_map[tf.argmax(predictions[0]).numpy()]
+#     return predicted_class
 
 
-print(predict_image("path/to/single/image.jpg"))
+# print(predict_image("path/to/single/image.jpg"))
