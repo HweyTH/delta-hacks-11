@@ -27,7 +27,7 @@ class ResultPage(QWidget):
         self.setStyleSheet("background-color: #1e1e2e; color: #e0e0e0;")
 
         # Logo (Clickable Label)
-        logo_label = QLabel("SignStreak")
+        logo_label = QLabel("Play Again")
         logo_label.setAlignment(Qt.AlignCenter)
         logo_label.setStyleSheet("font-size: 24px; font-weight: bold; color: #ffc400;")
         logo_label.setFont(QFont("Arial", 20))
