@@ -78,6 +78,7 @@ class GamePage(QWidget):
     def update_timer(self):
         if self.time_left > 0:
             self.time_left -= 1
+            self.player_handler.update_wpm()
             minutes = self.time_left // 60
             seconds = self.time_left % 60
             self.timer_label.setText(f"{minutes:02}:{seconds:02}")

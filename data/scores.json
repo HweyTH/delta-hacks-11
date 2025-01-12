@@ -1,5 +1,5 @@
 {
-    "games_played": 8,
+    "games_played": 9,
     "1": {
         "avg_wpm": 35.0,
         "highest_wpm": 42,
@@ -135,6 +135,52 @@
             "arsine",
             "lachrymosal",
             "locaters"
+        ],
+        "duration": 30
+    },
+    "9": {
+        "avg_wpm": 0.0,
+        "highest_wpm": 0,
+        "all_wpms": [
+            0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ],
+        "accuracy": 0.967741935483871,
+        "mistakes": 30,
+        "words_typed": [
+            "computed",
+            "ignore",
+            "carter",
+            "bell"
         ],
         "duration": 30
     }
