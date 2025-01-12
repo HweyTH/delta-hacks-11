@@ -1,4 +1,5 @@
 import sys
+from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget
 from gui.pages.home_page import HomePage
 from gui.pages.game_page import GamePage
@@ -8,6 +9,7 @@ from gui.pages.result_page import ResultPage
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowIcon(QtGui.QIcon('gui/resources/icons/icon.png'))
         self.setWindowTitle("Sign Streak")
         self.setFixedSize(800, 600)
 

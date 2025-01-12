@@ -21,7 +21,7 @@ class PlayerHandler:
         self.highest_wpm = 0
         self.mistakes = 0
         self.words_typed = []
-        self.current_string = get_words(10000)
+        self.current_string = get_words(5000)
         self.current_word = self.current_string[0]
         self.typed_colors = ['grey'] * len(self.current_word)  # Initialize all letters as 'grey'
         self.total_inputs = 1
