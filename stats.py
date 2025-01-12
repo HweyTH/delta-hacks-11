@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import json
+from PIL import Image
 
 """
 Creates a graph to show WPM at each second, mistakes, and accuracy.
@@ -28,8 +28,6 @@ def visualize_stats():
         for _ in range(diff):
             all_wpms.append(all_wpms[-1])
 
-    # wpms = np.arange(all_wpms)
-
     # Could maybe be more efficient
     seconds = []
     time = 1
@@ -37,15 +35,28 @@ def visualize_stats():
         seconds.append(time)
         time += 1
 
-    print(seconds)
-    fig, ax = plt.subplots()
-    ax.plot(seconds, all_wpms)
-
-    ax.set(xlabel='Seconds', ylabel='Words Per Minute',
-        title='Typing Test Results')
-    ax.grid()
-    fig.savefig('name.png')
-    plt.show()
+    plt.rcParams['font.sans-serif'] = ['Arial']
+    plt.figure(figsize=(10, 6))
+    plt.plot(seconds, all_wpms, color="#d79921", linewidth=2)
+    plt.gca().set_facecolor('#282828')
+    plt.gcf().set_facecolor('#282828')
+    plt.gca().spines['top'].set_color('#645a52')
+    plt.gca().spines['bottom'].set_color('#645a52')
+    plt.gca().spines['left'].set_color('#645a52')
+    plt.gca().spines['right'].set_color('#645a52')
+    plt.gca().spines['top'].set_linewidth(2)
+    plt.gca().spines['bottom'].set_linewidth(2)
+    plt.gca().spines['left'].set_linewidth(2)
+    plt.gca().spines['right'].set_linewidth(2)
+    plt.tick_params(axis='x', colors='#645a52')
+    plt.tick_params(axis='y', colors='#645a52')
+    plt.ylabel('Words Per Minute', fontname='Arial', fontsize=10, color='#d79921')
+    plt.tight_layout()
+    plt.gcf().canvas.draw()
+    image = Image.frombytes('RGB', 
+                           plt.gcf().canvas.get_width_height(),
+                           plt.gcf().canvas.tostring_rgb())
+    return image
 
 def get_stats():
     with open('data/scores.json', encoding='utf-8') as file:
@@ -56,3 +67,4 @@ def get_stats():
         accuracy = game_stats['accuracy']
 
     return avg_wpm, accuracy
+
