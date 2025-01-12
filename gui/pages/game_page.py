@@ -97,8 +97,10 @@ class GamePage(QWidget):
                 pass
             elif input_result == False:
                 pass
+            # Backspace
             elif input_result == None:
-                pass
+                if not self.player_handler.last_input_correct: # Incorrect so delete go back
+                    pass
 
         else:
             self.countdown_timer.stop()
