@@ -96,7 +96,7 @@ class GamePage(QWidget):
 
     def load_words(self):
         """Load words from the words.txt file."""
-        with open('/Users/eshagupta/Desktop/DeltaProj/delta-hacks-11/data/words.txt', 'r') as file:
+        with open('data/words.txt', 'r') as file:
             words = file.read().splitlines()
         return words
 
