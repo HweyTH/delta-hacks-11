@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QHBoxLayout, QComboBox
 from PyQt5.QtCore import Qt
-
+from PyQt5.QtGui import QColor
 
 class HomePage(QWidget):
     def __init__(self, navigate_to_game_page, parent=None):
@@ -8,15 +8,27 @@ class HomePage(QWidget):
 
         self.navigate_to_game_page = navigate_to_game_page
 
+        # Set the background color of the entire window (including space around the widgets)
+        self.setAutoFillBackground(True)
+        palette = self.palette()
+        palette.setColor(self.backgroundRole(), QColor(152,134,159))  # Purple background for the entire window
+        self.setPalette(palette)
+
         # Set up layout
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignCenter)  # Align everything to the center
+
+        # Add Welcome label
+        welcome_label = QLabel("Welcome to Sign Streak!")
+        welcome_label.setAlignment(Qt.AlignCenter)
+        welcome_label.setStyleSheet("color: white; font-size: 32px; font-weight: bold; padding-bottom: 30px;")
+        layout.addWidget(welcome_label)
 
         # Time Selection (Centered with Dropdown)
         time_selection_layout = QHBoxLayout()
         time_label = QLabel("Select Time:")
         time_label.setAlignment(Qt.AlignCenter)
-        time_label.setStyleSheet("font-size: 18px;")
+        time_label.setStyleSheet("font-size: 18px; color: white;")
         time_selection_layout.addWidget(time_label)
 
         self.time_dropdown = QComboBox()
@@ -30,6 +42,7 @@ class HomePage(QWidget):
         self.open_camera_btn = QPushButton("Open Camera")
         self.open_camera_btn.setEnabled(False)  # Disabled initially
         self.open_camera_btn.clicked.connect(self.open_camera)
+        self.open_camera_btn.setStyleSheet("color: white; background-color: #3B2251; font-size: 18px; padding: 10px; border-radius: 5px;")
         layout.addWidget(self.open_camera_btn)
 
         # Set the layout for the page

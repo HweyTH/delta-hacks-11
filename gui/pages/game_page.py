@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QHBoxLayo
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QImage, QPixmap
 import cv2, imutils
+import random
 
 class GamePage(QWidget):
     def __init__(self, parent=None, selected_time=60, navigate_to_result_page=None):
@@ -61,6 +62,10 @@ class GamePage(QWidget):
         self.countdown_timer.timeout.connect(self.update_timer)
         self.time_left = self.selected_time  # Set countdown time based on selected time
 
+        # Load words from file
+        self.words = self.load_words()
+        self.update_word()
+
     def timerEvent(self, event):
         ret, frame = self.cap.read()
         if ret:
@@ -88,6 +93,17 @@ class GamePage(QWidget):
             self.countdown_timer.stop()
             if self.navigate_to_result_page:
                 self.navigate_to_result_page()
+
+    def load_words(self):
+        """Load words from the words.txt file."""
+        with open('/Users/eshagupta/Desktop/DeltaProj/delta-hacks-11/data/words.txt', 'r') as file:
+            words = file.read().splitlines()
+        return words
+
+    def update_word(self):
+        """Update the word label with a random word."""
+        random_word = random.choice(self.words)
+        self.word_label.setText(random_word)
 
     def closeEvent(self, event):
         self.cap.release()
