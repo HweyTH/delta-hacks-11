@@ -105,20 +105,10 @@ class GamePage(QWidget):
             if self.navigate_to_result_page:
                 self.navigate_to_result_page()
 
-<<<<<<< HEAD
+
     def load_words(self):
         """Load words from the words.txt file."""
         with open('data/words.txt', 'r') as file:
             words = file.read().splitlines()
         return words
 
-    def update_word(self):
-        """Update the word label with a random word."""
-        random_word = random.choice(self.words)
-        self.word_label.setText(random_word)
-
-=======
->>>>>>> 554544de3e326808a2575ab8f5b314eea7fc8482
-    def closeEvent(self, event):
-        self.cap.release()
-        super().closeEvent(event)
