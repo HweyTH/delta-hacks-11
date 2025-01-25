@@ -10,7 +10,7 @@ mp_drawing = mp.solutions.drawing_utils
 
 # Open a webcam
 # Connect to your default device's default webcam
-capture = cv2.VideoCapture(0)
+capture = cv2.VideoCapture(1) # change to 1 to select the secondary webcame if your default isn't your laptop webcam
 
 # initialize current and prev time to calculate the recording fps
 prevTime = 0
@@ -67,7 +67,7 @@ while capture.isOpened():
     )
 
     # calculate fps
-    currTime = time.Time()
+    currTime = time.time()
     fps = 1 / (currTime-prevTime)
     prevTime=currTime
 
@@ -77,8 +77,8 @@ while capture.isOpened():
     # display the landmarks mapped image
     cv2.imshow("Facial and Hand Landmarks", image)
 
-    # use key "q" to break the loop
-    if cv2.waitKey("q") & 0xFF == ord('q'):
+    # # use key "q" to break the loop
+    if cv2.waitKey(5) & 0xFF == ord('q'):
         break
 
 capture.release()
