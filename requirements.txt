@@ -28,7 +28,7 @@ opt_einsum==3.4.0
 optree==0.13.1
 packaging==24.2
 pillow==11.1.0
-protobuf==4.25.5
+protobuf==4.25.8
 Pygments==2.19.1
 pyparsing==3.2.1
 PyQt5==5.15.11
