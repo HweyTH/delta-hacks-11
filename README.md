@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="gallery1.jpg" alt="Sign Streak Banner" width="600" />
+  <img src="assets/gallery1.jpg" alt="Sign Streak Banner" width="600" />
 
   <h1>🤟 Sign Streak</h1>
   
@@ -40,15 +40,15 @@ Here’s a look at Sign Streak in action:
 
 | **Welcome Screen** | **Preparing to Sign** |
 |:---:|:---:|
-| <img src="gallery1.jpg" alt="Welcome Screen" width="400"/> | <img src="gallery2.jpg" alt="Ready State" width="400"/> |
+| <img src="assets/gallery1.jpg" alt="Welcome Screen" width="400"/> | <img src="assets/gallery2.jpg" alt="Ready State" width="400"/> |
 
 | **Correct Sign Detection** | **Incorrect Sign / Feedback** |
 |:---:|:---:|
-| <img src="gallery3.jpg" alt="Correct Sign" width="400"/><br/>*Successfully signing 'W'* | <img src="gallery4.jpg" alt="Incorrect Sign" width="400"/><br/>*Attempting 'O' but detecting 'K'* |
+| <img src="assets/gallery3.jpg" alt="Correct Sign" width="400"/><br/>*Successfully signing 'W'* | <img src="assets/gallery4.jpg" alt="Incorrect Sign" width="400"/><br/>*Attempting 'O' but detecting 'K'* |
 
 ### Performance Analytics
 <p align="center">
-  <img src="gallery5.jpg" alt="Analytics page" width="600"/>
+  <img src="assets/gallery5.jpg" alt="Analytics page" width="600"/>
   <br/>
   <em>Detailed post-game WPM & Accuracy breakdown using Matplotlib</em>
 </p>
@@ -100,4 +100,4 @@ Here’s a look at Sign Streak in action:
 
 ---
 
-*Made with ❤️ for DeltaHacks 11.*
+*From McMaster University DeltaHacks XI.*
