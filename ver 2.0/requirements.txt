@@ -1,8 +1,0 @@
-mediapipe
-opencv-python
-tensorflow
-keras
-pandas
-numpy
-msvc-runtime
-
